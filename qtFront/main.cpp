@@ -1,6 +1,10 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include <QTcpSocket>
+#include <QCoreApplication>
+#include <QDebug>
+
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -20,6 +24,28 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
     engine.load(url);
+
+    //IPC
+    QTcpSocket socket;
+
+    // Connect to server
+    socket.connectToHost("127.0.0.1", 12345); // IP and port of server
+
+    if(!socket.waitForConnected(3000)) {
+        qDebug() << "Connection failed!";
+    }
+
+    qDebug() << "Connected to server.";
+
+    // Send message
+    socket.write("Hello from Qt client!");
+    socket.waitForBytesWritten(1000);
+
+    // Read response
+    socket.waitForReadyRead(3000);
+    qDebug() << "Server says: " << socket.readAll();
+
+    socket.disconnectFromHost();
 
     return app.exec();
 }

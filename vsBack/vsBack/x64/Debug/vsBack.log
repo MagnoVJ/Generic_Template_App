@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Projects\Generic_Template_App\vsBack\src\main.cpp(46,52): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  vsBack.vcxproj -> C:\Projects\Generic_Template_App\vsBack\x64\Debug\vsBack.exe
