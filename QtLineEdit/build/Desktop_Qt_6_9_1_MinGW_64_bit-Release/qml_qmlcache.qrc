@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<RCC>
-    <qresource prefix="/">
-        <file alias="main.qml">../../../Generic_Template_App/qtFront/main.qml</file>
-    </qresource>
-</RCC>
