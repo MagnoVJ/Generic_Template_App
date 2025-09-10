@@ -24,26 +24,33 @@ int main() {
 
 	bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
 
-	// Listen
-	listen(serverSocket, SOMAXCONN);
-	std::cout << "Server listening on port 12345...\n";
+	std::string response = "";
 
-	// Accept a client
-	clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientSize);
-	std::cout << "Client connected!\n";
+	while (response != "close_connection") {
+		// Listen
+		listen(serverSocket, SOMAXCONN);
+		std::cout << "Server listening on port 12345...\n";
 
-	// Receive data
-	char buffer[512];
-	int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+		// Accept a client
+		clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientSize);
+		std::cout << "Client connected!\n";
 
-	if (bytesReceived > 0) {
-		buffer[bytesReceived] = '\0'; // Null-terminate the string
-		std::cout << "Received: " << buffer << std::endl;
+		// Receive data
+		char buffer[512];
+		int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
+
+		if (bytesReceived > 0) {
+			buffer[bytesReceived] = '\0'; // Null-terminate the string
+			//std::cout << "Received: " << buffer << std::endl;
+			response = buffer;
+			std::cout << response << '\n';
+		}
+
 	}
 
 	// Send response
-	std::string response = "Hello from server!";
-	send(clientSocket, response.c_str(), response.size(), 0);
+	//std::string response = "Hello from server!";
+	//send(clientSocket, response.c_str(), response.size(), 0);
 
 	// Cleanup
 	closesocket(clientSocket);

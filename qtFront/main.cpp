@@ -1,9 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include <QTcpSocket>
 #include <QCoreApplication>
 #include <QDebug>
+
+#include "interface_helper.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +16,11 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    InterfaceHelper interfaceHelper;
+
+    engine.rootContext()->setContextProperty("interfaceHelper", &interfaceHelper);
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
         &engine,
@@ -26,26 +34,26 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     //IPC
-    QTcpSocket socket;
+    //QTcpSocket socket;
 
     // Connect to server
-    socket.connectToHost("127.0.0.1", 12345); // IP and port of server
+    //socket.connectToHost("127.0.0.1", 12345); // IP and port of server
 
-    if(!socket.waitForConnected(3000)) {
-        qDebug() << "Connection failed!";
-    }
-
-    qDebug() << "Connected to server.";
+    //if(!socket.waitForConnected(3000)) {
+    //    qDebug() << "Connection failed!";
+    //}
+    //else
+    //  qDebug() << "Connected to server.";
 
     // Send message
-    socket.write("Hello from Qt client!");
-    socket.waitForBytesWritten(1000);
+    //socket.write("Hello from Qt client!");
+    //socket.waitForBytesWritten(1000);
 
     // Read response
-    socket.waitForReadyRead(3000);
-    qDebug() << "Server says: " << socket.readAll();
+    //socket.waitForReadyRead(3000);
+    //qDebug() << "Server says: " << socket.readAll();
 
-    socket.disconnectFromHost();
+    //socket.disconnectFromHost();
 
     return app.exec();
 }

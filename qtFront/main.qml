@@ -12,6 +12,10 @@ ApplicationWindow {
     title: "Customizable LineEdit Example"
     color: "#f5f5f5" // Light background
 
+    onClosing: {
+        interfaceHelper.windowClosing()
+    }
+
     ColumnLayout {
         anchors.centerIn: parent
         spacing: 20
@@ -44,13 +48,14 @@ ApplicationWindow {
             text: "Confirmar"
             Layout.fillWidth: true
             onClicked: {
-                console.log("LineEdit 1: ", lineEdit1.text)
-                console.log("LineEdit 2: ", lineEdit2.text)
-                Qt.callLater(function() {
+                interfaceHelper.processInput(lineEdit1.text, lineEdit2.text)
+                //console.log("LineEdit 1: ", lineEdit1.text)
+                //console.log("LineEdit 2: ", lineEdit2.text)
+                //Qt.callLater(function() {
                     //Custom JS logic
-                    messageDialog.text = `Você entrou:\n1.${lineEdit1.text}\n2.${lineEdit2.text}`
-                    messageDialog.open()
-                })
+                    //messageDialog.text = `Você entrou:\n1.${lineEdit1.text}\n2.${lineEdit2.text}`
+                    //messageDialog.open()
+                //})
             }
         }
     }
